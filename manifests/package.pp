@@ -1,12 +1,19 @@
 # Add a define to allow installing PEAR packages.
 define pear::package(
   $package = $title,
-  $repository = "pear.php.net"
+  $repository = "pear.php.net",
+  $version = "latest"
 ) {
+  if $version != "latest" {
+    $pear_source = "${repository}/${package}-${version}"
+  } else {
+    $pear_source = "${repository}/${package}"
+  }
+
   package { "pear-${repository}-${package}":
     name => $package,
-    ensure => installed,
     provider => "pear",
-    source => "${repository}/${package}",
+    source => $pear_source,
+    ensure => $version,
   }
 }

@@ -9,7 +9,7 @@ class pear(
 
   # Add a define to allow installing PEAR packages.
   define pear::package( 
-    $package,
+    $package = $title,
     $repository = "pear.php.net",
   ) {
     include pear

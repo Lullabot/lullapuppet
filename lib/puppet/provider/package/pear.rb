@@ -14,6 +14,9 @@ Puppet::Type.type(:package).provide :pear, :parent => Puppet::Provider::Package 
   commands :pearcmd => "pear"
 
   def self.pearlist(hash)
+    # Work around PEAR's bold/italic output.
+    old_term = ENV['TERM']
+    ENV['TERM'] = 'puppet'
     command = [command(:pearcmd), "list", "-a"]
 
     begin
@@ -40,8 +43,14 @@ Puppet::Type.type(:package).provide :pear, :parent => Puppet::Provider::Package 
 
       end.reject { |p| p.nil? }
     rescue Puppet::ExecutionFailure => detail
+      # Restore the old TERM value before bailing out.
+      ENV['TERM'] = old_term
+
       raise Puppet::Error, "Could not list pears: %s" % detail
     end
+
+    # Restore the old TERM value.
+    ENV['TERM'] = old_term
 
     if hash[:justme]
       return list.shift
@@ -52,6 +61,8 @@ Puppet::Type.type(:package).provide :pear, :parent => Puppet::Provider::Package 
 
   def self.pearsplit(desc)
     case desc
+    when /^No entry for terminal/: return nil
+    when /^using dumb terminal/: return nil
     when /^INSTALLED/: return nil
     when /^=/: return nil
     when /^PACKAGE/: return nil

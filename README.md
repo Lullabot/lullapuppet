@@ -38,3 +38,29 @@ pear::package { "drush":
   repository => "pear.drush.org",
 }
 ```
+
+Alternately, to specify a different package for PEAR (if you are using IUS
+on CentOS, for example) you can invoke the class using the parameterized
+class syntax instead of an `include`.
+
+```puppet
+class { "pear":
+  package => "php52-pear",
+  require => Package["php52-cli"],
+}
+
+# If no version number is supplied, the latest stable release will be
+# installed. In this case, upgrade PEAR to 1.9.2+ so it can use
+# pear.drush.org without complaint.
+pear::package { "PEAR": }
+pear::package { "Console_Table": }
+
+# Version numbers are supported.
+# Also, make sure PEAR is upgraded before trying to install drush.
+pear::package { "drush":
+  version => "4.5.0",
+  repository => "pear.drush.org",
+  require => Pear::Package["PEAR"],
+}
+```
+

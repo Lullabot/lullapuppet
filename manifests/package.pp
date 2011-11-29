@@ -15,5 +15,6 @@ define pear::package(
     provider => "pear",
     source => $pear_source,
     ensure => $version,
+    require => Class["pear"],
   }
 }

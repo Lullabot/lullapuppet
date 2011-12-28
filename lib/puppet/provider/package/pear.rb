@@ -82,6 +82,7 @@ Puppet::Type.type(:package).provide :pear, :parent => Puppet::Provider::Package 
   end
 
   def self.instances
+    which('pear') or return []
     pearlist(:local => true).collect do |hash|
       new(hash)
     end

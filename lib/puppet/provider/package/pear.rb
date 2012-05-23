@@ -155,7 +155,7 @@ Puppet::Type.type(:package).provide :pear, :parent => Puppet::Provider::Package 
   def latest
     # This always gets the latest version available.
     version = ''
-    command = [command(:pearcmd), "remote-info", @resource[:name]]
+    command = [command(:pearcmd), "remote-info", @resource[:source]]
       list = execute(command).collect do |set|
       if set =~ /^Latest/
         version = set.split[1]

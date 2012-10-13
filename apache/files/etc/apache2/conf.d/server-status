@@ -1,0 +1,22 @@
+<IfModule mod_status.c>
+    ExtendedStatus On
+    Listen 61709
+    NameVirtualHost 127.0.0.1:61709
+
+    <VirtualHost 127.0.0.1:61709>
+        <Location /server-status>
+            SetHandler server-status
+            Order deny,allow
+            Deny from all
+            Allow from 127.0.0.1
+        </Location>
+
+        Alias /apc.php /usr/local/share/php/apc.php
+        <Directory /usr/local/share/php>
+            Order deny,allow
+            Deny from all
+            Allow from 127.0.0.1
+        </Directory>
+    </VirtualHost>
+
+</IfModule>

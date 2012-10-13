@@ -1,0 +1,73 @@
+#!/bin/bash
+
+TODAY=`date +"%Y%m%d"`
+TIMESTAMP=`date +"%Y%m%d%H%M"`
+OUTPUTDIR="/var/backups/mysql"
+RETENTION=30
+DATABASES=`mysql -B -N -e "select distinct TABLE_SCHEMA from information_schema.TABLES" | grep -v information_schema`
+
+# S3 options
+S3=0
+S3_BUCKET=""
+S3_FOLDER=`hostname -f`
+S3CMD='/usr/bin/s3cmd'
+
+# Usage
+usage() {
+    echo "usage: $0 [-h] [-o dumpdir] [-r retention] [-d database] [-s bucket [-f folder] [-b /usr/bin/s3cmd]]"
+}
+
+# Parse commandline flags
+while getopts "o:r:d:s:f:b:hq" options; do
+    case $options in
+        o ) OUTPUTDIR=${OPTARG}
+            ;;
+        r ) RETENTION=${OPTARG}
+            ;;
+        d ) DATABASES=${OPTARG}
+            ;;
+        s ) S3=1
+            S3_BUCKET=${OPTARG}
+            ;;
+        f ) S3_FOLDER=${OPTARG}
+            ;;
+        b ) S3CMD=${OPTARG}
+            ;;
+        * ) usage
+            exit 3
+            ;;
+    esac
+done
+
+# output directory sanity check
+if [ ! -d $OUTPUTDIR ]; then
+    mkdir -p $OUTPUTDIR
+fi
+
+# Disable S3 if the s3cmd binary is not executable
+if [ $S3 -eq 1 ] && [ ! -x ${S3CMD} ]; then
+    echo "${S3CMD} not found or not executable" 1>&2
+    S3=0
+fi
+
+# Disable S3 if there are any errors listing the specified bucket
+if [ $S3 -eq 1 ] && ${S3CMD} ls s3://${S3_BUCKET} 2>&1 | grep -q "^ERROR"; then
+    ${S3CMD} ls s3://${S3_BUCKET}
+    S3=0
+fi
+
+# Do the backups!
+for DATABASE in $DATABASES; do
+    # Back up database.
+    mysqldump $DATABASE | gzip > $OUTPUTDIR/$DATABASE-$TIMESTAMP.sql.gz
+
+    # Copy to S3, if enabled
+    if [ $S3 -eq 1 ]; then
+        ${S3CMD} --no-progress put $OUTPUTDIR/$DATABASE-$TIMESTAMP.sql.gz s3://${S3_BUCKET}/${S3_FOLDER}/$DATABASE-$TODAY.sql.gz
+    fi
+
+    # Clean up old backups of this database
+    if [ $RETENTION -gt 0 ]; then
+        find ${OUTPUTDIR} -maxdepth 1 -name ${DATABASE}-\*.sql.gz -mtime +${RETENTION} -exec rm {} \;
+    fi
+done

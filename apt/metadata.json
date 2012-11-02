@@ -1,0 +1,62 @@
+{
+  "description": "APT Module for Puppet",
+  "checksums": {
+    "tests/pin.pp": "4b4c3612d75a19dba8eb7227070fa4ab",
+    "spec/spec_helper.rb": "b82f4026973f2f20f2c57dec946bdbee",
+    "spec/classes/debian_testing_spec.rb": "fad1384cb9d3c99b2663d7df4762dc0e",
+    "manifests/params.pp": "531ec812c2b911e6aa4c3f0644f2a4dd",
+    "manifests/source.pp": "d22c2ff0926fd5e93bdfa89c6ff19b7d",
+    "manifests/release.pp": "a4d60bc7d9b3ebc73694b9d0644c815e",
+    "manifests/debian/unstable.pp": "9baac8522316b65151738baa8410e1b3",
+    "CHANGELOG": "187f82632c2cd9f97a8d29b292ea629a",
+    "tests/release.pp": "53ce5debe6fa5bee42821767599cc768",
+    "spec/classes/apt_spec.rb": "fb5b0c3e58abffb4e00d958161d920aa",
+    "LICENSE": "20bcc606fc61ffba2b8cea840e8dce4d",
+    "tests/params.pp": "900db40f3fc84b0be173278df2ebff35",
+    "tests/builddep.pp": "4773f57072111e58f2ed833fa4489a88",
+    "templates/source.list.erb": "43f615090a71f9afc706207c5c59dbb6",
+    "spec/fixtures/manifests/site.pp": "d41d8cd98f00b204e9800998ecf8427e",
+    "spec/defines/key_spec.rb": "7800c30647b1ddf799b991110109cba0",
+    "manifests/ppa.pp": "d1770ccc6f565e0fbdd1aaee55df3ebb",
+    "manifests/pin.pp": "af270d16f8659cd665311f491d99a5c2",
+    "manifests/debian/testing.pp": "9a13d55d14c7b1607d18906f13a6aa55",
+    "manifests/builddep.pp": "cc415b7a51d2a67d547c959f87db09ad",
+    "tests/debian/unstable.pp": "4b2a090afeb315752262386f4dbcd8ca",
+    "spec/defines/pin_spec.rb": "5b0c23c7cd5307b80b5eab22a378e9d6",
+    "spec/classes/debian_unstable_spec.rb": "11131efffd18db3c96e2bbe3d98a2fb7",
+    "README.md": "f51d1934e51ac8970223cd0246fd4f13",
+    "Rakefile": "dd14bb86200f2aea667cd90acc299d57",
+    "manifests/force.pp": "97a0713c33399b3dff6ca58f12dda6e1",
+    "spec/defines/ppa_spec.rb": "e6eb701c28758743f4c01591c043975b",
+    "spec/defines/force_spec.rb": "e9de1b32e63d9441f95f9dedbabbfea0",
+    "manifests/key.pp": "a2014a1f95117ef3a07544fd4ecd194f",
+    "tests/source.pp": "9cecd9aa0dcde250fe49be9e26971a98",
+    "tests/ppa.pp": "b902cce8159128b5e8b21bed540743ff",
+    "tests/init.pp": "551138eb704e71ab3687932dda429a81",
+    "spec/defines/builddep_spec.rb": "a68faa5f764ab4fa170181314e88c433",
+    "spec/classes/release_spec.rb": "d8f01a3cf0c2f6f6952b835196163ce4",
+    "spec/classes/params_spec.rb": "a25396d3f0bbac784a7951f03ad7e8f4",
+    "tests/key.pp": "ff258b1a81002bf6a497406c3f267570",
+    "tests/force.pp": "2bb6cf0b3d655cb51f95aeb79035e600",
+    "tests/debian/testing.pp": "1cbee56baddd6a91d981db8fddec70fb",
+    "spec/defines/source_spec.rb": "2e3573c23d25b68b16936c2f62a44e26",
+    "Modulefile": "3a72a5228b70f43b42b578eefb16d952",
+    "manifests/init.pp": "18a7474f898ea2b6266f9f92b6b85998"
+  },
+  "summary": "Apt Module for Puppet",
+  "source": "https://github.com/puppetlabs/puppet-apt",
+  "dependencies": [
+    {
+      "version_requirement": ">= 2.2.1",
+      "name": "puppetlabs/stdlib"
+    }
+  ],
+  "project_page": "https://github.com/puppetlabs/puppet-apt",
+  "author": "Evolving Web / Puppet Labs",
+  "types": [
+
+  ],
+  "version": "0.0.2",
+  "name": "puppet-apt",
+  "license": "Apache License 2.0"
+}

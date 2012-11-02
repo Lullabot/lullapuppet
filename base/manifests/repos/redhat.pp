@@ -1,0 +1,1 @@
+class base::repos::redhat { }

@@ -15,6 +15,14 @@ class mysql::server (
         require => Package['mysql-server'],
     }
 
+    file { '/etc/mysql/my.cnf':
+        ensure  => present {
+            true    => '/etc/mysql/my.cnf',
+            default => 'absent',
+        },
+        mode    => '0755',
+    }
+
     file { '/usr/local/bin/mysqltuner.pl':
         ensure  => present,
         source  => 'puppet:///modules/mysql/usr/local/bin/mysqltuner.pl',

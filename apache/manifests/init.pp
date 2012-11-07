@@ -99,6 +99,12 @@ class apache (
             default => 'absent',
         },
     }
+    file { '/etc/php5/apache2/php.ini':
+        ensure  => $mod_php5 ? {
+            true    => '/etc/php5/apache2/php.ini',
+            default => 'absent',
+        },
+    }
 
     # mod_proxy
     file { '/etc/apache2/mods-enabled/proxy.conf':

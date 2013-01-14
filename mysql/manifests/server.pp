@@ -16,11 +16,10 @@ class mysql::server (
     }
 
     file { '/etc/mysql/my.cnf':
-        ensure  => present {
-            true    => '/etc/mysql/my.cnf',
-            default => 'absent',
-        },
-        mode    => '0755',
+        ensure  => present,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0644',
     }
 
     file { '/usr/local/bin/mysqltuner.pl':

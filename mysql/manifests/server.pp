@@ -5,7 +5,9 @@ class mysql::server (
         $backup_s3_bucket   = false,
         ) { 
 
-    package { ['mysql-server', 'mysql-client']:
+    include mysql::client
+
+    package { ['mysql-server']:
         ensure  => present,
     }
 

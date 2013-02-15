@@ -31,6 +31,7 @@ class php (
     if !defined(Package['php5-dev'])        { package { 'php5-dev': } }
     if !defined(Package['php5-gd'])         { package { 'php5-gd': } }
     if !defined(Package['php5-imagick'])    { package { 'php5-imagick': } }
+    if !defined(Package['php5-ldap'])       { package { 'php5-ldap': } }
     if !defined(Package['php5-mcrypt'])     { package { 'php5-mcrypt':  } }
     if !defined(Package['php5-memcache'])   { package { 'php5-memcache':  } }
     if !defined(Package['php5-memcached'])  { package { 'php5-memcached':  } }

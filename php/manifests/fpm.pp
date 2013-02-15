@@ -12,11 +12,16 @@ class php::fpm (
         mode    => '0644',
     }
 
-    apt::ppa { 'ppa:brianmercer/php5': }
+    if $::lsbdistcodename == 'lucid' {
+        apt::ppa { 'ppa:brianmercer/php5': }
+    }
 
     package { 'php5-fpm':
         ensure  => present,
-        require => Apt::Ppa['ppa:brianmercer/php5'],
+        require => $::lsbdistcodename ? {
+            lucid   => Apt::Ppa['ppa:brianmercer/php5'],
+            default => undef,
+        },
     }
 
 #    file { '/etc/php5/fpm/php.ini':

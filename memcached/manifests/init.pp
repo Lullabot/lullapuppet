@@ -1,4 +1,3 @@
-# Set "listen" to 'all' to listen on all interfaces.
 class memcached (
     $mem    = 64,
     $port   = 11211,

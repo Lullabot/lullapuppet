@@ -30,7 +30,11 @@ StrictModes yes
 
 RSAAuthentication <%= rsaauthentication %>
 PubkeyAuthentication <%= pubkeyauthentication %>
+<% if @lsbdistcodename == 'precise' %>AuthorizedKeysFile <%= authorizedkeysfile %> <%= authorizedkeysfile2 %>
+<% else %>
 AuthorizedKeysFile <%= authorizedkeysfile %>
+AuthorizedKeysFile2 <%= authorizedkeysfile2 %>
+<% end -%>
 
 # Don't read the user's ~/.rhosts and ~/.shosts files
 IgnoreRhosts yes

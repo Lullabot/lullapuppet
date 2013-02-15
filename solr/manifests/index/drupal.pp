@@ -1,5 +1,5 @@
 define solr::index::drupal(
-    $version    = '7.x-1.0-rc2',
+    $version    = '7.x-1.1',
     ) {
 
     # Defaults
@@ -16,7 +16,7 @@ define solr::index::drupal(
     }
 
     exec { "configure ${title} index":
-        command => "cp -r /var/lib/tomcat6/solr/example.com/conf/* /var/lib/tomcat6/solr/${title}/conf/ && wget -q -O- http://ftp.drupal.org/files/projects/apachesolr-${version}.tar.gz | tar -C /var/lib/tomcat6/solr/${title}/conf --strip 2 -zxf - --wildcards \"apachesolr/solr-conf/*\" && echo ${version} > /var/lib/tomcat6/solr/${title}/conf/version.txt && chown -R tomcat6:tomcat6 /var/lib/tomcat6/solr/${title}/conf",
+        command => "cp -r /var/lib/tomcat6/solr/example.com/conf/* /var/lib/tomcat6/solr/${title}/conf/ && wget -q -O- http://ftp.drupal.org/files/projects/apachesolr-${version}.tar.gz | tar -C /var/lib/tomcat6/solr/${title}/conf --strip 3 -zxf - --wildcards \"apachesolr/solr-conf/solr-1.4/*\" && echo ${version} > /var/lib/tomcat6/solr/${title}/conf/version.txt && chown -R tomcat6:tomcat6 /var/lib/tomcat6/solr/${title}/conf",
         require => File['/var/lib/tomcat6/solr/example.com',
                         "/var/lib/tomcat6/solr/${title}/conf"],
         unless  => "grep ${version} /var/lib/tomcat6/solr/${title}/conf/version.txt",

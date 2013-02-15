@@ -7,7 +7,7 @@ class mysql::server (
 
     include mysql::client
 
-    package { ['mysql-server']:
+    package { 'mysql-server':
         ensure  => present,
     }
 
@@ -15,13 +15,6 @@ class mysql::server (
         ensure  => running,
         enable  => true,
         require => Package['mysql-server'],
-    }
-
-    file { '/etc/mysql/my.cnf':
-        ensure  => present,
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0644',
     }
 
     file { '/usr/local/bin/mysqltuner.pl':
@@ -44,12 +37,21 @@ class mysql::server (
             default => 'absent',
         },
         user    => 'root',
-        command => $backup_s3_bucket ? {
-            false   => "/usr/local/bin/mysqlbackup -r ${backup_retention}",
-            default => "/usr/local/bin/mysqlbackup -r ${backup_retention} -s ${backup_s3_bucket}",
-        },
+        command => "/usr/local/bin/mysqlbackup -r ${backup_retention}",
         hour    => $backup_hour,
         minute  => 0,
+    }
+
+    cron { 'mysqlbackup-s3':
+        ensure  => $backup_s3_bucket ? {
+            false   => 'absent',
+            default => 'present',
+        },
+        user    => 'root',
+        command => "/usr/local/bin/mysqlbackup -r ${backup_retention} -s ${backup_s3_bucket}",
+        hour    => 4,
+        minute  => 0,
+        weekday => 0,
     }
 
 }

@@ -1,0 +1,3 @@
+table filter chain INPUT proto 50 ACCEPT;
+table filter chain INPUT proto udp dport (500 4500) ACCEPT;
+table filter chain INPUT proto udp dport (1701) mod policy dir in pol ipsec ACCEPT;

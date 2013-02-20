@@ -1,0 +1,7 @@
+<% @nameserver.each do |n| -%>
+nameserver <%= n %>
+<% end -%>
+search <%= @search %>
+<% if @domain != '' -%>
+domain <%= @domain %>
+<% end -%>

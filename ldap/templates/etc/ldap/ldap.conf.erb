@@ -1,0 +1,27 @@
+#
+# LDAP Defaults
+#
+
+# See ldap.conf(5) for details
+# This file should be world readable but not world writable.
+
+BASE            <%= @base %>
+URI             <%= @uri %>
+LDAP_VERSION    <%= @ldap_version %>
+
+SSL             <%= @ssl %>
+<% if @ssl == 'start_tls' -%>
+TLS_CHECKPEER   <%= @tls_checkpeer %>
+<% if @tls_cacertfile %>TLS_CACERT      <%= @tls_cacertfile %><% end %>
+<% if @tls_cacertfile %>TLS_CACERTFILE  <%= @tls_cacertfile %><% end %>
+<% if @tls_cacertdir %>TLS_CACERTDIR    <%= @tls_cacertdir %><% end %>
+<% end -%>
+
+<% if @binddn %>BINDDN          <%= @binddn %><% end %>
+<% if @bindpw %>BINDPW          <%= @bindpw %><% end %>
+
+#SIZELIMIT      12
+#TIMELIMIT      15
+#DEREF          never
+
+<% if @sudoers_base %>SUDOERS_BASE    <%= @sudoers_base %><% end %>

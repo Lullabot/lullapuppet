@@ -1,0 +1,70 @@
+#!/bin/bash
+
+TODAY=`date +"%Y%m%d"`
+TIMESTAMP=`date +"%Y%m%d%H%M"`
+OUTPUTDIR="/var/backups/ldap"
+RETENTION=30
+
+# S3 options
+S3=0
+S3_BUCKET=""
+S3_FOLDER=`hostname -f`
+S3CMD='/usr/bin/s3cmd'
+
+# Usage
+usage() {
+        echo "usage: $0 [-h] [-o dumpdir] [-r retention] [-s bucket [-f folder] [-b /usr/bin/s3cmd]]"
+}
+# Parse commandline flags
+while getopts "o:r:s:f:b:hq" options; do
+    case $options in
+        o ) OUTPUTDIR=${OPTARG}
+            ;;
+        r ) RETENTION=${OPTARG}
+            ;;
+        s ) S3=1
+            S3_BUCKET=${OPTARG}
+            ;;
+        f ) S3_FOLDER=${OPTARG}
+            ;;
+        b ) S3CMD=${OPTARG}
+            ;;
+        * ) usage
+            exit 3
+            ;;
+    esac
+done
+
+# output directory sanity check
+if [ ! -d $OUTPUTDIR ]; then
+    mkdir -p $OUTPUTDIR
+fi
+
+# Disable S3 if the s3cmd binary is not executable
+if [ $S3 -eq 1 ] && [ ! -x ${S3CMD} ]; then
+    echo "${S3CMD} not found or not executable" 1>&2
+    S3=0
+fi
+
+# Disable S3 if there are any errors listing the specified bucket
+if [ $S3 -eq 1 ] && ${S3CMD} ls s3://${S3_BUCKET} 2>&1 | grep -q "^ERROR"; then
+    ${S3CMD} ls s3://${S3_BUCKET}
+    S3=0
+fi
+
+# Do the backup!
+slapcat -v | gzip > $OUTPUTDIR/ldap-$TIMESTAMP.ldif.gz
+tar -C /etc/ldap -czf $OUTPUTDIR/slapd.d-$TIMESTAMP.tar.gz slapd.d
+
+# Copy to S3, if enabled
+if [ $S3 -eq 1 ]; then
+    ${S3CMD} --no-progress put $OUTPUTDIR/ldap-$TIMESTAMP.ldif.gz s3://${S3_BUCKET}/${S3_FOLDER}/ldap-$TODAY.ldif.gz
+    ${S3CMD} --no-progress put $OUTPUTDIR/slapd.d-$TIMESTAMP.tar.gz s3://${S3_BUCKET}/${S3_FOLDER}/slapd.d-$TODAY.tar.gz
+fi
+
+# Clean up old backups
+if [ $RETENTION -gt 0 ]; then
+    find ${OUTPUTDIR} -maxdepth 1 -name ldap-\*.ldif.gz -mtime +${RETENTION} -exec rm {} \;
+    find ${OUTPUTDIR} -maxdepth 1 -name slapd.d-\*.tar.gz -mtime +${RETENTION} -exec rm {} \;
+fi
+

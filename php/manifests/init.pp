@@ -16,18 +16,17 @@ class php (
         owner   => 'root',
         group   => 'root',
         mode    => '0644',
-        require => Package['php5'],
+        require => Package['php5-cli'],
         notify  => $notify,
     }
 
     Package {
         ensure  => present,
-        require => Package['php5'],
+        require => Package['php5-cli'],
     }
 
     # Packages
-    if !defined(Package['php5'])            { package { 'php5': require => undef } }
-    if !defined(Package['php5-curl'])       { package { 'php5-curl': } }
+	if !defined(Package['php5-cli'])		{ package { 'php5-cli': require => undef } }
     if !defined(Package['php5-dev'])        { package { 'php5-dev': } }
     if !defined(Package['php5-gd'])         { package { 'php5-gd': } }
     if !defined(Package['php5-imagick'])    { package { 'php5-imagick': } }
@@ -130,7 +129,7 @@ class php (
         if !defined(Package['build-essential']) {
             package { 'build-essential': require => undef }
         }
-                
+
         if !defined(Package['libpcre3-dev']) {
             package { 'libpcre3-dev': require => undef }
         }

@@ -7,8 +7,4 @@ class ntp {
 		ensure  => running,
 		require => Package['ntp'],
 	}
-
-#	if $::operatingsystem == 'Ubuntu' {
-#	}
-
 }

@@ -1,9 +1,4 @@
-class mysql::server (
-        $backup             = true,
-        $backup_retention   = 30,
-        $backup_hour        = 2,
-        $backup_s3_bucket   = false,
-        ) { 
+class mysql::server {
 
     include mysql::client
 
@@ -21,37 +16,6 @@ class mysql::server (
         ensure  => present,
         source  => 'puppet:///modules/mysql/usr/local/bin/mysqltuner.pl',
         mode    => '0755',
-    }
-
-    file { '/usr/local/bin/mysqlbackup':
-        ensure  => present,
-        source  => 'puppet:///modules/mysql/usr/local/bin/mysqlbackup',
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0755',
-    }
-
-    cron { 'mysqlbackup':
-        ensure  => $backup ? {
-            true    => 'present',
-            default => 'absent',
-        },
-        user    => 'root',
-        command => "/usr/local/bin/mysqlbackup -r ${backup_retention}",
-        hour    => $backup_hour,
-        minute  => 0,
-    }
-
-    cron { 'mysqlbackup-s3':
-        ensure  => $backup_s3_bucket ? {
-            false   => 'absent',
-            default => 'present',
-        },
-        user    => 'root',
-        command => "/usr/local/bin/mysqlbackup -r ${backup_retention} -s ${backup_s3_bucket}",
-        hour    => 4,
-        minute  => 0,
-        weekday => 0,
     }
 
 }

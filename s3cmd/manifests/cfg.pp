@@ -1,5 +1,6 @@
 define s3cmd::cfg (
     $user = $title,
+	$group = $title,
     $home = "/home/$title",
     $access_key,
     $gpg_passphrase,
@@ -11,7 +12,7 @@ define s3cmd::cfg (
         ensure  => present,
         content => template('s3cmd/s3cfg.erb'),
         owner   => $user,
-        group   => $user,
+        group   => $group,
         mode    => 0600,
     }
 }

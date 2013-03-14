@@ -1,4 +1,4 @@
-This repo is a collection of generic modules. It is designed to be checked out
+This repo is a collection of generic modules. It is designed to be cloned
 to /usr/share/puppet/modules, which by default is the secondary location that
 puppet will look for modules. This allows for another repo to be used for
 custom modules and node manifests to glue everything together in /etc/puppet.

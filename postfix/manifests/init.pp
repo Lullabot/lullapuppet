@@ -1,6 +1,5 @@
 class postfix (
         $myhostname     = $::fqdn,
-        $aliases        = {},
         $canonical_maps = undef,
     ) {
 
@@ -21,18 +20,6 @@ class postfix (
         owner   => 'root',
         group   => 'root',
         mode    => '0644',
-    }
-
-    file { '/etc/aliases':
-        ensure      => present,
-        content     => template('postfix/etc/aliases.erb'),
-        notify      => Exec['newaliases'],
-    }
-
-    exec { 'newaliases':
-		command     => '/usr/bin/newaliases',
-        refreshonly => true,
-        require     => Package['postfix'],
     }
 
 }

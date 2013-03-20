@@ -1,0 +1,3 @@
+This puppet module installs and configures ferm to manage iptables rules. In
+order to use this on a RedHat based system, the EPEL repository must first be
+installed.

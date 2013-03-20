@@ -8,7 +8,7 @@ class ferm (
 
     # Defaults
     File {
-        require => Package['ferm'],
+        require => [Package['ferm'], File['/etc/ferm']],
         owner   => 'root',
         group   => 'root',
         mode    => '0644',
@@ -22,11 +22,18 @@ class ferm (
         ensure  => present,
     }
 
+    # Ensure the firewall rules are loaded at boot
+    $service = $::osfamily ? {
+        Debian => 'ferm',
+        Redhat => 'iptables',
+    }
     service { 'ferm':
-        enable      => true,
-        require     => Package['ferm'],
+        name    => $service,
+        enable  => true,
+        require => Package['ferm'],
     }
 
+    # Create the administration firewall rule
     if ($admin) {
         ferm::rule { '00-admin':
            dport => $admin,
@@ -38,6 +45,11 @@ class ferm (
     class { 'ferm::enforce': stage => ferm }
 
     # Config Files
+    file { '/etc/ferm':
+        ensure  => directory,
+        require => undef,
+    }
+
     file { '/etc/ferm/ferm.conf':
         ensure  => present,
         content => template('ferm/etc/ferm/ferm.conf.erb'),

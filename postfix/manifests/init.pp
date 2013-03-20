@@ -1,6 +1,7 @@
 class postfix (
-        $myhostname = $::fqdn,
-        $aliases    = {},
+        $myhostname     = $::fqdn,
+        $aliases        = {},
+        $canonical_maps = undef,
     ) {
 
     package { 'postfix':

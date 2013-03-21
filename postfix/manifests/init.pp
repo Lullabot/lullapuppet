@@ -16,6 +16,7 @@ class postfix (
     file { '/etc/postfix/main.cf':
         ensure  => present,
         content => template('postfix/etc/postfix/main.cf.erb'),
+        require => Package['postfix'],
         notify  => Service['postfix'],
         owner   => 'root',
         group   => 'root',

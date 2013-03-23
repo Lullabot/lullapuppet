@@ -33,7 +33,7 @@ class asterisk {
             ensure => present,
         }
 
-        package { ['asterisk', 'dahdi-dkms', 'dahdi']:
+        package { ['asterisk', 'asterisk-dahdi', 'dahdi-dkms', 'dahdi']:
             ensure  => present,
             require => Package['linux-headers-server'],
         }

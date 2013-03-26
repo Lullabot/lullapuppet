@@ -3,6 +3,15 @@ class postfix (
         $canonical_maps = undef,
     ) {
 
+    File {
+        ensure  => present,
+        require => Package['postfix'],
+        notify  => Service['postfix'],
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0644',
+    }
+
     package { 'postfix':
         ensure  => present,
     }
@@ -14,13 +23,10 @@ class postfix (
     }
 
     file { '/etc/postfix/main.cf':
-        ensure  => present,
         content => template('postfix/etc/postfix/main.cf.erb'),
-        require => Package['postfix'],
-        notify  => Service['postfix'],
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0644',
     }
 
+    file { '/etc/mailname':
+        content => "$::fqdn\n",
+    }
 }

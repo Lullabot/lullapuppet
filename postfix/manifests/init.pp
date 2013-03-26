@@ -1,4 +1,5 @@
 class postfix (
+        $mailname       = $::fqdn,
         $myhostname     = $::fqdn,
         $canonical_maps = undef,
     ) {
@@ -27,6 +28,6 @@ class postfix (
     }
 
     file { '/etc/mailname':
-        content => "$::fqdn\n",
+        content => "$mailname\n",
     }
 }

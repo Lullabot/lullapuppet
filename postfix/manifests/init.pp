@@ -1,6 +1,7 @@
 class postfix (
         $mailname       = $::fqdn,
         $myhostname     = $::fqdn,
+        $mydestination  = "$::fqdn, localhost",
         $canonical_maps = undef,
     ) {
 

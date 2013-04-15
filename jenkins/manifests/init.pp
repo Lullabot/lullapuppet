@@ -1,4 +1,6 @@
-class jenkins {
+class jenkins (
+        $jmx = false,
+    ) {
 
     apt::source { 'jenkins':
         location    => 'http://pkg.jenkins-ci.org/debian',
@@ -20,4 +22,13 @@ class jenkins {
         require => Package['jenkins'],
     }
 
+    file { '/etc/default/jenkins':
+        ensure  => present,
+        content  => template('jenkins/etc/default/jenkins.erb'),
+        require => Package['jenkins'],
+        notify  => Service['jenkins'],
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0644',
+    }
 }

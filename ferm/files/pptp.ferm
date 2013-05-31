@@ -1,4 +1,4 @@
 table filter chain INPUT proto tcp saddr (0.0.0.0/0) daddr (0.0.0.0/0) dport (1723) ACCEPT;
 table filter chain INPUT interface (ppp+) saddr (0.0.0.0/0) daddr (0.0.0.0/0) ACCEPT;
 table filter chain INPUT proto 47 saddr (0.0.0.0/0) daddr (0.0.0.0/0) ACCEPT;
-table nat chain POSTROUTING outerface (eth0) saddr (0.0.0.0/0) daddr (0.0.0.0/0) MASQUERADE;
+#table nat chain POSTROUTING outerface (eth0) saddr (0.0.0.0/0) daddr (0.0.0.0/0) MASQUERADE;

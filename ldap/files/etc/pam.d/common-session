@@ -24,5 +24,5 @@ session required                        pam_permit.so
 session required        pam_unix.so
 session optional                        pam_ldap.so
 session optional        pam_umask.so umask=0002
-session required        pam_mkhomedir.so umask 0022 skel=/etc/skel
+session required        pam_mkhomedir.so umask=0022 skel=/etc/skel
 # end of pam-auth-update config

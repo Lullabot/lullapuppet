@@ -18,6 +18,7 @@ class ossec::local (
     ) {
 
     File {
+        ensure  => running,
         owner   => 'root',
         group   => 'ossec',
         mode    => '0440',
@@ -25,18 +26,19 @@ class ossec::local (
     }
 
     service { 'ossec':
-        ensure      => running,
         enable      => true,
         hasrestart  => false,
     }
 
     file { "${basedir}/etc/ossec.conf":
-        ensure  => present,
         content => template('ossec/etc/ossec.conf.erb'),
     }
 
+    file { "${basedir}/etc/decoder.xml":
+        source => 'puppet:///modules/ossec/etc/decoder.xml',
+    }
+
     file { "${basedir}/active-response/bin/ferm-drop.sh":
-        ensure  => present,
         source  => 'puppet:///modules/ossec/active-response/bin/ferm-drop.sh',
         mode    => '0755',
     }

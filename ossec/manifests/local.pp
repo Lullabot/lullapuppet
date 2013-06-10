@@ -18,7 +18,7 @@ class ossec::local (
     ) {
 
     File {
-        ensure  => running,
+        ensure  => present,
         owner   => 'root',
         group   => 'ossec',
         mode    => '0440',
@@ -26,6 +26,7 @@ class ossec::local (
     }
 
     service { 'ossec':
+        ensure  => running,
         enable      => true,
         hasrestart  => false,
     }

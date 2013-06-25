@@ -39,7 +39,7 @@ port		= 3306
 basedir		= /usr
 datadir		= /var/lib/mysql
 tmpdir		= /tmp
-lc-messages-dir	= /usr/share/mysql
+<% if @mysql_version[0..2].to_f >= 5.5 then %>lc-messages-dir	= /usr/share/mysql<% end %>
 skip-external-locking
 <% if @skip_name_resolve then %>skip_name_resolve<% end %>
 #

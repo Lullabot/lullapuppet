@@ -4,7 +4,7 @@ class mysql::server (
         $max_connections                = 100,
         $table_open_cache               = 400,
         $default_storage_engine         = 'innodb',
-        $innodb_flush_method            = 'O_DIRECT',
+        $innodb_flush_method            = undef,
         $innodb_flush_log_at_trx_commit = 2,
         $innodb_log_buffer_size         = '8M',
         $innodb_log_file_size           = '256M',

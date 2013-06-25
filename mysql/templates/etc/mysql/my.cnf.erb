@@ -1,3 +1,5 @@
+#####              MANAGED BY PUPPET              #####
+#####  Changes WILL BE overwritten every 60 mins  #####
 #
 # The MySQL database server configuration file.
 #
@@ -98,7 +100,7 @@ max_binlog_size         = 100M
 # InnoDB is enabled by default with a 10MB datafile in /var/lib/mysql/.
 # Read the manual for more InnoDB related options. There are many!
 #
-innodb_flush_method            = <%= @innodb_flush_method %>
+<% if @innodb_flush_method then %>innodb_flush_method            = <%= @innodb_flush_method %><% end %>
 innodb_flush_log_at_trx_commit = <%= @innodb_flush_log_at_trx_commit %>
 innodb_log_buffer_size         = <%= @innodb_log_buffer_size %>
 innodb_log_file_size           = <%= @innodb_log_file_size %>

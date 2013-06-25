@@ -3,6 +3,8 @@ class mysql::server (
         $skip_name_resolve              = true,
         $max_connections                = 100,
         $table_open_cache               = 400,
+        $query_cache_size               = '16M',
+        $join_buffer_size               = 131072,
         $default_storage_engine         = 'innodb',
         $innodb_flush_method            = undef,
         $innodb_flush_log_at_trx_commit = 2,

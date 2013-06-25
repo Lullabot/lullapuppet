@@ -102,7 +102,7 @@ innodb_flush_method            = <%= @innodb_flush_method %>
 innodb_flush_log_at_trx_commit = <%= @innodb_flush_log_at_trx_commit %>
 innodb_log_buffer_size         = <%= @innodb_log_buffer_size %>
 innodb_log_file_size           = <%= @innodb_log_file_size %>
-innodb_buffer_pool_size        = <% if @innodb_buffer_pool_size then %><%= @innodb_buffer_pool_size %><% else %><%= (@memorysize.split(' ')[0].to_i * 0.375).to_i.to_s  + 'M' %><% end %>
+innodb_buffer_pool_size        = <% if @innodb_buffer_pool_size then %><%= @innodb_buffer_pool_size %><% else %><%= (@memorysize_mb.split(' ')[0].to_i * 0.375).to_i.to_s  + 'M' %><% end %>
 <% if @innodb_file_per_table then %>innodb_file_per_table<% end %>
 #
 # * Security Features

@@ -1,0 +1,5 @@
+mysql::server installs, and attempts to optimize the MySQL server. If no
+innodb_buffer_pool_size parameter is specified, 37.5% of the total server
+memory is allocated. This is based on the assumption that the server is not
+a dedicated MySQL server. If a specific buffer pool size is required, just
+set the parameter.

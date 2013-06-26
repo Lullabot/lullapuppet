@@ -1,5 +1,6 @@
 class php (
         $apc        = true,
+        $curl       = true,
         $gd         = true,
         $imagick    = true,
         $mcrypt     = true,
@@ -26,7 +27,8 @@ class php (
     }
 
     # Packages
-	if !defined(Package['php5-cli'])		{ package { 'php5-cli': require => undef } }
+    if !defined(Package['php5-cli'])        { package { 'php5-cli': require => undef } }
+    if !defined(Package['php5-curl'])       { package { 'php5-curl': } }
     if !defined(Package['php5-dev'])        { package { 'php5-dev': } }
     if !defined(Package['php5-gd'])         { package { 'php5-gd': } }
     if !defined(Package['php5-imagick'])    { package { 'php5-imagick': } }
@@ -59,6 +61,15 @@ class php (
         source  => 'puppet:///modules/php/usr/local/share/php/apc.php',
         require => File['/usr/local/share/php'],
         mode    => '0755',
+    }
+
+    # Curl
+    file { '/etc/php5/conf.d/curl.ini':
+        ensure  => present,
+        content => $curl ? {
+            true    => "extension=curl.so\n",
+            default => ";extension=curl.so\n",
+        },
     }
 
     # GD

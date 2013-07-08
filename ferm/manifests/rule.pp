@@ -39,7 +39,7 @@ define ferm::rule(
 
     $protocol = $proto ? {
         any   => '',
-        default => " proto $proto",
+        default => " proto ($proto)",
     }
 
     file { "/etc/ferm/${dir}/${title}.ferm":

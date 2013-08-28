@@ -1945,10 +1945,7 @@ Sat May  7 03:27:57 CDT 2011 /var/ossec/active-response/bin/firewall-drop.sh del
 
 <!-- Asterisk logs
   - Examples:
-  - Dec 16 18:02:04 asterisk1 asterisk[31774]: NOTICE[31787]:
-  chan_sip.c:11242 in handle_request_register: Registration from
-  '"503"<sip:503@192.168.1.107>' failed for '192.168.1.137' - Wrong
-  password
+  - Dec 16 18:02:04 asterisk1 asterisk[31774]: NOTICE[31787]: chan_sip.c:11242 in handle_request_register: Registration from '"503"<sip:503@192.168.1.107>' failed for '192.168.1.137' - Wrong password
   -->
 <decoder name="asterisk">
   <program_name>^asterisk</program_name>
@@ -1971,7 +1968,7 @@ Sat May  7 03:27:57 CDT 2011 /var/ossec/active-response/bin/firewall-drop.sh del
 <decoder name="asterisk-denied2">
   <parent>asterisk</parent>
   <prematch>Registration from </prematch>
-  <regex offset="after_prematch">failed for '(\d+.\d+.\d+.\d+)'</regex>
+  <regex offset="after_prematch">failed for '(\d+.\d+.\d+.\d+):\d+'</regex>
   <order>srcip</order>
 </decoder>
 
@@ -1980,6 +1977,13 @@ Sat May  7 03:27:57 CDT 2011 /var/ossec/active-response/bin/firewall-drop.sh del
   <prematch>^NOTICE[\d+]: \S+ in \S+: Host </prematch>
   <regex offset="after_prematch">^(\d+.\d+.\d+.\d+) failed MD5 authentication for (\S+)</regex>
   <order>srcip, user</order>
+</decoder>
+
+<decoder name="asterisk-extension-rejected">
+  <parent>asterisk</parent>
+  <prematch>NOTICE[\d+][\.+]: \S+ in \S+: Call from </prematch>
+  <regex offset="after_prematch">^'(\.*)' \((\d+.\d+.\d+.\d+):\d+\) to extension '\.+' rejected because extension not found in context '(\.+)'.</regex>
+  <order>srcuser,srcip,dstuser</order>
 </decoder>
 
 <!-- Cisco IOS

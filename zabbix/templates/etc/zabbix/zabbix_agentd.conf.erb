@@ -247,6 +247,12 @@ UserParameter=apache.status[*],wget -q -O /dev/null "http://localhost:61709/serv
 # APC Keys
 UserParameter=apc.status[*],wget -q -O - "http://localhost:61709/apc.php?q=$1"
 
+# Asterisk Keys
+UserParameter=asterisk.channels[*],/usr/sbin/asterisk -x "core show channels" | grep "$1" | awk '{print $$1}'
+UserParameter=asterisk.confbridge,/usr/sbin/asterisk -x "confbridge list" | sed -n 3~1p | wc -l
+UserParameter=asterisk.sip.registry,/usr/sbin/asterisk -x "sip show registry" | grep Registered | wc -l
+UserParameter=asterisk.sip.peers[*],/usr/sbin/asterisk -x "sip show peers" | tail -n 1 | awk '{print $$$1}'
+
 # Memcached Keys
 UserParameter=memcached.stats[*],(echo stats; sleep 0.1) | telnet localhost $1 2>&1 | awk '/STAT $2 / {print $NF}'
 
@@ -275,4 +281,3 @@ UserParameter=postfix.queue[*],find /var/spool/postfix/$1 -type f | wc -l)
 
 # Puppet Keys
 UserParameter=puppet.runtime,fgrep "Finished catalog run in" /var/log/syslog | tail -n 1 | awk '{print $(NF-1)}'
-

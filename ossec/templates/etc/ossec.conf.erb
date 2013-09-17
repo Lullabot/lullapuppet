@@ -2,7 +2,7 @@
   <global>
     <email_notification><%= email_notification %></email_notification>
 <% @email_to.each do |e| -%>
-    <email_to<%= e %></email_to>
+    <email_to><%= e %></email_to>
 <% end -%>
     <smtp_server><%= @smtp_server %></smtp_server>
     <email_from><%= @email_from %></email_from>

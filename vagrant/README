@@ -1,0 +1,9 @@
+This puppet module is meant to be used during a Vagrant box provisioning. It
+pulls various config files from a user's local home directory and copies them
+into the vagrant environment. This allows users to use Vagrant while
+maintaining all of their local settings (such as .vimrc).
+
+In order for this to work, The following configuration needs to be included in
+the Vagrantfile for the box(es) being provisioned with this module.
+
+    config.vm.synced_folder "~/", "/vhome"

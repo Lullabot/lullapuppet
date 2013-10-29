@@ -1,0 +1,2 @@
+table filter chain INPUT proto (udp tcp) saddr (0.0.0.0/0) daddr (0.0.0.0/0) dport (1194) ACCEPT;
+table filter chain INPUT interface (tun+) saddr (0.0.0.0/0) daddr (0.0.0.0/0) ACCEPT;

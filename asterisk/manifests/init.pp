@@ -1,4 +1,4 @@
-class asterisk {
+class asterisk ($configs = true) {
 
     if $::osfamily == RedHat {
 
@@ -19,8 +19,14 @@ class asterisk {
             enabled => 1,
         }
 
+        if $configs {
+            $packages = ['asterisk', 'asterisk-configs']
+        } else {
+            $packages = ['asterisk']
+        }
+
         # Install asterisk
-        package { ['asterisk', 'asterisk-configs']:
+        package { $packages:
             require => Yumrepo['asterisk-11'],
         }
 

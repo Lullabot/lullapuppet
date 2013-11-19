@@ -48,13 +48,13 @@ class php (
     }
 
     # APC
-    file { '/etc/php5/conf.d/apc.ini':
-        ensure  => present,
-        content => $apc ? {
-            true    => "extension=apc.so\n",
-            default => ";extension=apc.so\n",
-        },
-    }
+#    file { '/etc/php5/conf.d/apc.ini':
+#        ensure  => present,
+#        content => $apc ? {
+#            true    => "extension=apc.so\n",
+#            default => ";extension=apc.so\n",
+#        },
+#    }
 
     file { '/usr/local/share/php/apc.php':
         ensure  => present,

@@ -1,28 +1,33 @@
-class asterisk {
+class asterisk ($configs = true) {
 
     if $::osfamily == RedHat {
 
         # Prerequisite packages
         if !defined(Package['dnsmasq']) { package { 'dnsmasq': } }
-        if !defined(Package['yum-utils']) { package { 'yum-utils': } }
 
         # Install the asterisk & digium repositories
-        exec { 'asterisknow-version':
-            command => 'rpm -i http://packages.asterisk.org/centos/6/current/i386/RPMS/asterisknow-version-3.0.0-1_centos6.noarch.rpm',
-            creates => '/etc/asterisknow-version',
-            require => Package['dnsmasq'],
+        package { 'asterisknow-version':
+            require  => Package['dnsmasq'],
+            provider => rpm,
+            source   => "http://packages.asterisk.org/centos/6/current/${::architecture}/RPMS/asterisknow-version-3.0.0-1_centos6.noarch.rpm",
+            ensure   => installed,
         }
 
         # Enable the asterisk-11 repo
-        exec { 'enable asterisk-11':
-            command => 'yum-config-manager --enable asterisk-11',
-            unless  => 'grep enabled=1 /etc/yum.repos.d/centos-asterisk-11.repo',
-            require => [Package['yum-utils'], Exec['asterisknow-version']],
+        yumrepo { 'asterisk-11':
+            require => Package['asterisknow-version'],
+            enabled => 1,
+        }
+
+        if $configs {
+            $packages = ['asterisk', 'asterisk-configs']
+        } else {
+            $packages = ['asterisk']
         }
 
         # Install asterisk
-        package { ['asterisk', 'asterisk-configs']:
-            require => Exec['enable asterisk-11'],
+        package { $packages:
+            require => Yumrepo['asterisk-11'],
         }
 
     }

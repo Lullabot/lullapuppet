@@ -36,7 +36,7 @@ class php::fpm (
         ensure      => running,
         enable      => true,
         require     => Package['php5-fpm'],
-        subscribe   => File['/etc/php5/conf.d/apc.ini'],
+#        subscribe   => File['/etc/php5/conf.d/apc.ini'],
     }
 
     # Helper package for monitoring

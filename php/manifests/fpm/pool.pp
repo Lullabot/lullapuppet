@@ -8,6 +8,7 @@ define php::fpm::pool (
         $pm_min_spare_servers   = 2,
         $pm_max_spare_servers   = 6,
         $pm_status_path         = '/status',
+        $request_terminate_timeout = 300,
         ) {
 
     $pool = $title

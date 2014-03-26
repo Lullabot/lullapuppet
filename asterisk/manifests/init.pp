@@ -111,6 +111,7 @@ class asterisk (
 
     file { "/usr/local/src/asterisk-${version}/menuselect.makeopts":
         source  => 'puppet:///modules/asterisk/menuselect.makeopts',
+        replace => false,
         require => Exec['asterisk::unpack'],
         notify  => Exec['asterisk::configure'],
         owner   => 'root',
